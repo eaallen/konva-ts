@@ -9,7 +9,6 @@ export default class Item {
     layer: Konva.Layer
     #previousAbsolutePosition: { x: number, y: number }
     #collidingItems: Item[] = [];
-    #state: Record<string, any> = {};
     constructor(shape: Shape<ShapeConfig>, layer: Konva.Layer = DefaultLayer) {
         this.shape = shape;
         this.layer = layer;
@@ -114,8 +113,6 @@ export default class Item {
             width: this.width,
             height: this.height,
             color: this.color,
-            collidingItems: this.collidingItems,
-            isColliding: this.isColliding,
         }
     }
 }

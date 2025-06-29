@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import DefaultLayer from './layers/DefaultLayer';
-import Rect from './objects/Rect';
-import snapback from './effects/snapping/snapback';
+import Rect, { Square } from './objects/Rect';
+import { snapback, snapOnCollision } from './effects/snap';
 import { testCollision } from './effects/collisions';
 import { getAllItems } from './layers/LayerTracker';
 
@@ -26,9 +26,11 @@ snapback(testCollision(new Rect({
   draggable: true,
 })));
 
-setInterval(() => {
-  console.log(getAllItems().map(item=> JSON.parse(JSON.stringify(item))));
-}, 5000)
+
+snapOnCollision(Square.yellow({x: 500, y: 700}));
+snapOnCollision(Square.pink({x: 500, y: 500}));
+
+
 
 
 
