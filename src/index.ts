@@ -4,6 +4,7 @@ import Rect, { Square } from './objects/Rect';
 import { snapback, snapOnCollision } from './effects/snap';
 import { testCollision } from './effects/collisions';
 import { getAllItems } from './layers/LayerTracker';
+import Line from './objects/Line';
 
 const stage = new Konva.Stage({
   container: 'container',
@@ -29,6 +30,8 @@ snapback(testCollision(new Rect({
 
 snapOnCollision(Square.yellow({x: 500, y: 700}));
 snapOnCollision(Square.pink({x: 500, y: 500}));
+
+Line.example();
 
 
 

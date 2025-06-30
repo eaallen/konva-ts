@@ -3,12 +3,14 @@ import { Shape, ShapeConfig } from "konva/lib/Shape";
 import DefaultLayer from "../layers/DefaultLayer";
 import { haveIntersection } from "../utils";
 import * as LayerTracker from "../layers/LayerTracker";
+import { selectClickHandler } from "../effects/stack";
 
 export default class Item {
     shape: Shape<ShapeConfig>
     layer: Konva.Layer
     #previousAbsolutePosition: { x: number, y: number }
     #collidingItems: Item[] = [];
+    #isSelected: boolean = false;
     constructor(shape: Shape<ShapeConfig>, layer: Konva.Layer = DefaultLayer) {
         this.shape = shape;
         this.layer = layer;
@@ -27,6 +29,7 @@ export default class Item {
         this.shape.on('dragmove', () => {
             this.calculateCollidingItems();
         })
+        selectClickHandler(this);
     }
 
     calculateCollidingItems() {
@@ -42,6 +45,14 @@ export default class Item {
 
     on(event: string, callback: (item: Item) => void) {
         this.shape.on(event, () => callback(this));
+    }
+
+    select() {
+        this.#isSelected = true;
+    }
+
+    deselect() {
+        this.#isSelected = false;
     }
 
     get previousAbsolutePosition() {
@@ -82,6 +93,18 @@ export default class Item {
 
     get isColliding() {
         return this.collidingItems.length > 0;
+    }
+
+    get firstCollidingItem() {
+        return this.collidingItems[0];
+    }
+
+    get stage() {
+        return this.shape.getStage() as Konva.Stage;
+    }
+
+    get isSelected() {
+        return this.#isSelected;
     }
 
     set x(x: number) {
